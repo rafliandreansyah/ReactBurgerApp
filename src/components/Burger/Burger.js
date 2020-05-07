@@ -4,9 +4,9 @@ import classes from "./Burger.css";
 import BurgerIngredient from "./BurgerIngredient/BurgerIngredient";
 
 const burger = (props) => {
-  let transformIngredients = Object.keys(props.ingredient)
+  let transformIngredients = Object.keys(props.ingredients)
     .map((igKeys) => {
-      return [...Array(props.ingredient[igKeys])].map((_, i) => {
+      return [...Array(props.ingredients[igKeys])].map((_, i) => {
         return <BurgerIngredient key={igKeys + i} type={igKeys} />;
       });
     })
@@ -18,6 +18,7 @@ const burger = (props) => {
     transformIngredients = <p>Please start adding ingredient!</p>;
   }
   console.log(transformIngredients);
+
   return (
     <div className={classes.Burger}>
       <BurgerIngredient type="bread-top" />
