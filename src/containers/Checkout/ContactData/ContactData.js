@@ -87,6 +87,7 @@ class ContactData extends Component {
           ],
         },
         value: "",
+        validation: {}, //fix error dropdown rule1
         valid: true,
       },
     },
@@ -128,6 +129,10 @@ class ContactData extends Component {
 
   validationHandler(value, rules) {
     let isValid = true;
+
+    // if (!rules) { //Fix error drowdown rule 2
+    //   return true
+    // }
 
     if (rules.required) {
       isValid = value.trim() !== "" && isValid;
