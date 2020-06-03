@@ -4,8 +4,18 @@ import classes from "./Input.css";
 const input = (props) => {
   let inputElement = null;
   const inputClass = [classes.InputElement];
+  let validationError = null;
   if (props.invalid && props.shouldValidate && props.touched) {
-    inputClass.push(classes.Invalid);
+    validationError = <p className={classes.Error}>Can't Required!!</p>;
+    if (props.value.length >= props.maxLengthMessage) {
+      validationError = <p className={classes.Error}>Too Long!!</p>;
+    }
+    if (
+      props.value.length <= props.minLengthMessage &&
+      props.value.trim() !== ""
+    ) {
+      validationError = <p className={classes.Error}>Too Short!!</p>;
+    }
   }
 
   switch (props.elementType) {
@@ -62,6 +72,7 @@ const input = (props) => {
     <div className={classes.Input}>
       <label className={classes.Label}>{props.label}</label>
       {inputElement}
+      {validationError}
     </div>
   );
 };

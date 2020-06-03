@@ -31,3 +31,12 @@
   border: 1px solid red;
   background: salmon;
 }
+
+.Error {
+  color: red;
+  font-size: 12px;
+  text-align: start;
+  margin-top: 5px;
+  margin-left: 5px;
+  margin-bottom: 0;
+}

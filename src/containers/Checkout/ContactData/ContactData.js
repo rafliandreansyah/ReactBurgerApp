@@ -86,7 +86,7 @@ class ContactData extends Component {
             { value: "cheapest", displayValue: "Cheapest" },
           ],
         },
-        value: "",
+        value: "fastest",
         validation: {}, //fix error dropdown rule1
         valid: true,
       },
@@ -152,6 +152,8 @@ class ContactData extends Component {
     return isValid;
   }
 
+  errorMessageHandler() {}
+
   changeInputHandler = (event, inputIdentifier) => {
     const updateForm = { ...this.state.orderForm };
     const updateFormElement = { ...updateForm[inputIdentifier] };
@@ -192,6 +194,8 @@ class ContactData extends Component {
             invalid={!formElement.config.valid}
             shouldValidate={formElement.config.validation}
             touched={formElement.config.touched}
+            minLengthMessage={formElement.config.validation.minLength}
+            maxLengthMessage={formElement.config.validation.maxLength}
             changed={(event) => this.changeInputHandler(event, formElement.id)}
           />
         ))}
