@@ -42,20 +42,21 @@ class BurgerBuilder extends Component {
     // console.log('Continue purchasing!');
 
     console.log(this.props);
-
-    const queryParams = [];
-    for (let i in this.props.ingr) {
-      queryParams.push(
-        encodeURIComponent(i) + "=" + encodeURIComponent(this.props.ingr[i])
-      );
-    }
-    console.log(queryParams);
-    queryParams.push("price=" + this.props.price);
-    const queryString = queryParams.join("&");
-    this.props.history.push({
-      pathname: "/checkout",
-      search: "?" + queryString,
-    });
+    this.props.onInitPurchased();
+    this.props.history.push("/checkout");
+    // const queryParams = [];
+    // for (let i in this.props.ingr) {
+    //   queryParams.push(
+    //     encodeURIComponent(i) + "=" + encodeURIComponent(this.props.ingr[i])
+    //   );
+    // }
+    // console.log(queryParams);
+    // queryParams.push("price=" + this.props.price);
+    // const queryString = queryParams.join("&");
+    // this.props.history.push({
+    //   pathname: "/checkout",
+    //   search: "?" + queryString,
+    // });
   };
 
   render() {
@@ -121,6 +122,7 @@ const mapDispatchToProps = (dispatch) => {
     onIngredientsRemove: (ingName) =>
       dispatch(burgerBuilderAction.removeIngredients(ingName)),
     onSetIngredients: () => dispatch(burgerBuilderAction.initIngredients()),
+    onInitPurchased: () => dispatch(burgerBuilderAction.initPurchased()),
   };
 };
 
