@@ -1,4 +1,5 @@
 import * as actionTypes from "../actions/actionTypes";
+import { updateObject } from "../utility";
 
 const initialState = {
   ingredients: null,
@@ -16,28 +17,35 @@ const INGREDIENT_PRICE = {
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.ADD_INGREDIENTS:
-      return {
-        // Immutable Update Patterns dengan tidak mengakses secara langsung state dan mengkloning state lama untuk update data state
-        ...state,
-        ingredients: {
-          ...state.ingredients,
-          [action.ingredientName]: state.ingredients[action.ingredientName] + 1,
-        },
+      // Immutable Update Patterns dengan tidak mengakses secara langsung state dan mengkloning state lama untuk update data state
+
+      const updateIngredient = {
+        [action.ingredientName]: state.ingredients[action.ingredientName] + 1,
+      };
+      const updateIngredients = updateObject(
+        state.ingredients,
+        updateIngredient
+      );
+      const updateState = {
+        ingredients: updateIngredients,
         totalPrice: state.totalPrice + INGREDIENT_PRICE[action.ingredientName],
       };
+      return updateObject(state, updateState);
+
     case actionTypes.REMOVE_INGREDIENTS:
-      return {
-        // Immutable Update Patterns dengan tidak mengakses secara langsung state dan mengkloning state lama untuk update data state
-        ...state,
-        ingredients: {
-          ...state.ingredients,
-          [action.ingredientName]: state.ingredients[action.ingredientName] - 1,
-        },
+      const updateIngr = {
+        [action.ingredientName]: state.ingredients[action.ingredientName] - 1,
+      };
+      const updateIngrs = updateObject(state.ingredients, updateIngr);
+      const updateSt = {
+        ingredients: updateIngrs,
         totalPrice: state.totalPrice + INGREDIENT_PRICE[action.ingredientName],
       };
+      return updateObject(state, updateSt);
+    // Immutable Update Patterns dengan tidak mengakses secara langsung state dan mengkloning state lama untuk update data state
+
     case actionTypes.SET_INGREDIENTS:
-      return {
-        ...state,
+      return updateObject(state, {
         ingredients: {
           salad: action.ingredients.salad,
           bacon: action.ingredients.bacon,
@@ -46,12 +54,9 @@ const reducer = (state = initialState, action) => {
         },
         totalPrice: 4,
         error: false,
-      };
+      });
     case actionTypes.FETCH_INGREDIENTS_ERROR:
-      return {
-        ...state,
-        error: true,
-      };
+      return updateObject(state, { error: true });
     default:
       return state;
   }
