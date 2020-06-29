@@ -60,16 +60,16 @@ const fetchError = (state, action) => {
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.ADD_INGREDIENTS:
-      return addIngredients;
+      return addIngredients(state, action);
 
     case actionTypes.REMOVE_INGREDIENTS:
-      return removeIngredients;
+      return removeIngredients(state, action);
 
     case actionTypes.SET_INGREDIENTS:
-      return setIngredients;
+      return setIngredients(state, action);
 
     case actionTypes.FETCH_INGREDIENTS_ERROR:
-      return fetchError;
+      return fetchError(state, action);
 
     default:
       return state;
