@@ -14,49 +14,63 @@ const INGREDIENT_PRICE = {
   meat: 0.5,
 };
 
+const addIngredients = (state, action) => {
+  // Immutable Update Patterns dengan tidak mengakses secara langsung state dan mengkloning state lama untuk update data state
+  const updateIngredient = {
+    [action.ingredientName]: state.ingredients[action.ingredientName] + 1,
+  };
+  const updateIngredients = updateObject(state.ingredients, updateIngredient);
+  const updateState = {
+    ingredients: updateIngredients,
+    totalPrice: state.totalPrice + INGREDIENT_PRICE[action.ingredientName],
+  };
+  return updateObject(state, updateState);
+};
+
+const removeIngredients = (state, action) => {
+  const updateIngr = {
+    [action.ingredientName]: state.ingredients[action.ingredientName] - 1,
+  };
+  const updateIngrs = updateObject(state.ingredients, updateIngr);
+  const updateSt = {
+    ingredients: updateIngrs,
+    totalPrice: state.totalPrice + INGREDIENT_PRICE[action.ingredientName],
+  };
+  return updateObject(state, updateSt);
+  // Immutable Update Patterns dengan tidak mengakses secara langsung state dan mengkloning state lama untuk update data state
+};
+
+const setIngredients = (state, action) => {
+  return updateObject(state, {
+    ingredients: {
+      salad: action.ingredients.salad,
+      bacon: action.ingredients.bacon,
+      cheese: action.ingredients.cheese,
+      meat: action.ingredients.meat,
+    },
+    totalPrice: 4,
+    error: false,
+  });
+};
+
+const fetchError = (state, action) => {
+  return updateObject(state, { error: true });
+};
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.ADD_INGREDIENTS:
-      // Immutable Update Patterns dengan tidak mengakses secara langsung state dan mengkloning state lama untuk update data state
-
-      const updateIngredient = {
-        [action.ingredientName]: state.ingredients[action.ingredientName] + 1,
-      };
-      const updateIngredients = updateObject(
-        state.ingredients,
-        updateIngredient
-      );
-      const updateState = {
-        ingredients: updateIngredients,
-        totalPrice: state.totalPrice + INGREDIENT_PRICE[action.ingredientName],
-      };
-      return updateObject(state, updateState);
+      return addIngredients;
 
     case actionTypes.REMOVE_INGREDIENTS:
-      const updateIngr = {
-        [action.ingredientName]: state.ingredients[action.ingredientName] - 1,
-      };
-      const updateIngrs = updateObject(state.ingredients, updateIngr);
-      const updateSt = {
-        ingredients: updateIngrs,
-        totalPrice: state.totalPrice + INGREDIENT_PRICE[action.ingredientName],
-      };
-      return updateObject(state, updateSt);
-    // Immutable Update Patterns dengan tidak mengakses secara langsung state dan mengkloning state lama untuk update data state
+      return removeIngredients;
 
     case actionTypes.SET_INGREDIENTS:
-      return updateObject(state, {
-        ingredients: {
-          salad: action.ingredients.salad,
-          bacon: action.ingredients.bacon,
-          cheese: action.ingredients.cheese,
-          meat: action.ingredients.meat,
-        },
-        totalPrice: 4,
-        error: false,
-      });
+      return setIngredients;
+
     case actionTypes.FETCH_INGREDIENTS_ERROR:
-      return updateObject(state, { error: true });
+      return fetchError;
+
     default:
       return state;
   }
