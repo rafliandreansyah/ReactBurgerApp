@@ -3,13 +3,17 @@ import classes from "./NavigationItems.css";
 
 import NavigationItem from "./NavigationItem/NavigationItem";
 
-const navigationItem = () => (
+const navigationItem = (props) => (
   <ul className={classes.NavigationItems}>
     <NavigationItem link="/" exact>
       Burger Builder
     </NavigationItem>
     <NavigationItem link="/orders">Orders</NavigationItem>
-    <NavigationItem link="/auth">Authentication</NavigationItem>
+    {!props.isAuthenticated ? (
+      <NavigationItem link="/auth">Authentication</NavigationItem>
+    ) : (
+      <NavigationItem link="/logout">Logout</NavigationItem>
+    )}
   </ul>
 );
 
