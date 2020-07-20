@@ -5,6 +5,7 @@ const initialState = {
   ingredients: null,
   totalPrice: 4,
   error: false,
+  building: false,
 };
 
 const INGREDIENT_PRICE = {
@@ -23,6 +24,7 @@ const addIngredients = (state, action) => {
   const updateState = {
     ingredients: updateIngredients,
     totalPrice: state.totalPrice + INGREDIENT_PRICE[action.ingredientName],
+    building: true,
   };
   return updateObject(state, updateState);
 };
@@ -35,6 +37,7 @@ const removeIngredients = (state, action) => {
   const updateSt = {
     ingredients: updateIngrs,
     totalPrice: state.totalPrice + INGREDIENT_PRICE[action.ingredientName],
+    building: true,
   };
   return updateObject(state, updateSt);
   // Immutable Update Patterns dengan tidak mengakses secara langsung state dan mengkloning state lama untuk update data state
@@ -50,6 +53,7 @@ const setIngredients = (state, action) => {
     },
     totalPrice: 4,
     error: false,
+    building: false,
   });
 };
 
