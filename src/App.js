@@ -9,6 +9,7 @@ import Orders from "./containers/Orders/Orders";
 import Auth from "./containers/Auth/Auth";
 import Logout from "./containers/Auth/logout/Logout";
 import * as actionTypes from "./store/actions/index";
+import { Switch } from "react-router-dom/cjs/react-router-dom.min";
 
 class App extends Component {
   componentDidMount() {
@@ -16,19 +17,36 @@ class App extends Component {
   }
 
   render() {
-    return (
-      <div>
-        <Layout>
+    let route = (
+      <Switch>
+        <Route path="/" exact component={BurgerBuilder} />
+        <Route path="/auth" component={Auth} />
+      </Switch>
+    );
+
+    if (this.props.isAuthenticated) {
+      route = (
+        <Switch>
           <Route path="/" exact component={BurgerBuilder} />
           <Route path="/checkout" component={Checkout} />
           <Route path="/orders" component={Orders} />
-          <Route path="/auth" component={Auth} />
           <Route path="/logout" component={Logout} />
-        </Layout>
+        </Switch>
+      );
+    }
+    return (
+      <div>
+        <Layout>{route}</Layout>
       </div>
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    isAuthenticated: state.auth.token !== null,
+  };
+};
 
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -36,4 +54,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default withRouter(connect(null, mapDispatchToProps)(App));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));
