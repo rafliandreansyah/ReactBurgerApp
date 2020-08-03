@@ -19,18 +19,21 @@ class App extends Component {
   render() {
     let route = (
       <Switch>
-        <Route path="/" exact component={BurgerBuilder} />
         <Route path="/auth" component={Auth} />
+        <Route path="/" exact component={BurgerBuilder} />
+        <Route path="/" component={BurgerBuilder} />
       </Switch>
     );
 
     if (this.props.isAuthenticated) {
       route = (
         <Switch>
-          <Route path="/" exact component={BurgerBuilder} />
           <Route path="/checkout" component={Checkout} />
           <Route path="/orders" component={Orders} />
           <Route path="/logout" component={Logout} />
+          <Route path="/auth" component={Auth} />
+          <Route path="/" exact component={BurgerBuilder} />
+          <Route path="/" component={BurgerBuilder} />
         </Switch>
       );
     }
